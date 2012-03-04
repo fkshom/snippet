@@ -1,0 +1,14 @@
+# Exlap‚ÌŽg‚¢•û
+#============================================================
+
+Exlap.new("filename.xlsx") {|wb|
+  app = wb.app
+  ss = wb.first_empty_sheet
+  
+  ss[1, 1] = "test"
+  s.cell(1, 1).orientation = 45
+  ss.Range("B2").select
+  app.obj.windows(1).freezePanes = true
+  wb.save
+}
+

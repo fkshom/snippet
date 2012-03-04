@@ -1,0 +1,28 @@
+
+# ログのファイル名生成
+# HOSTADDR-YYYYMMDD.log 形式
+#============================================================
+
+inputbox 'Please Host_name:' 'Host_Name'
+HOSTADDR = inputstr
+logfile = 'C:\Users\NEC-PCuser\Desktop\cisco\work\'
+strconcat logfile HOSTADDR
+getdate datetime '-%Y%m%d'
+strconcat logfile datetime
+strconcat logfile '.log'
+
+logopen logfile 0 1
+logclose
+
+# ログのファイル名生成
+# mdir\comsole_USERNAME_YYYYMMDD-HHMMSS.log 形式
+#============================================================
+
+getenv 'USERNAME' username
+gettime timestr "%Y%m%d-%H%M%S"
+getdir mdir
+sprintf2 filename '%s\console_%s_%s.log' mdir username timestr
+
+logopen filename 0 0
+logclose
+
