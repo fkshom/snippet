@@ -1,0 +1,18 @@
+# プロセス置換
+# http://www.connect-i.co.jp/tipsblog/?cat=5
+#============================================================
+
+1つの入力を2つのプロセスに渡す
+（方法1）
+mkfifo fifo1
+cat fifo1 | md5sum &
+cat file | tee fifo1 | gzip > file1.gz
+
+（方法2）
+cat file | tee >(md5sum) | gzip > file1.gz
+
+
+2つの入力を1つのプロセスに渡す
+標準入力を受け付けないコマンドにデータを流し込む
+diff <(echo aaa) <(echo bbb)
+
