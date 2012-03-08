@@ -22,3 +22,16 @@ rescue
   exlap.quit
 end
 
+# ファイルリードライト
+#============================================================
+
+str = File.read("test.txt", :encoding => Encoding::UTF_8)
+str = File.read("text.txt", :encoding => Encoding::EUC_JP).encode(Encoding::UTF_8)
+
+open("test.txt", "w"){|f|
+  f.write "Hello, World."
+}
+
+# for 1.9.3
+File.write("test.txt", "Hello, World.")
+
