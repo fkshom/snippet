@@ -12,3 +12,13 @@ Exlap.new("filename.xlsx") {|wb|
   wb.save
 }
 
+begin
+  exlap = Exlap.new
+  exlap.opens(FILE){|wb|
+  
+    wb.save
+  }
+rescue
+  exlap.quit
+end
+
