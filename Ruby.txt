@@ -35,3 +35,17 @@ open("test.txt", "w"){|f|
 # for 1.9.3
 File.write("test.txt", "Hello, World.")
 
+# class
+#============================================================
+
+class Example
+  def run(args)
+    new(args).run
+  end
+
+  def initialize(args)
+  end
+
+  def run
+  end
+end
