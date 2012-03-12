@@ -16,3 +16,16 @@ cat file | tee >(md5sum) | gzip > file1.gz
 標準入力を受け付けないコマンドにデータを流し込む
 diff <(echo aaa) <(echo bbb)
 
+# 複数ファイル内の文字列を置換して上書き保存する
+# http://qiita.com/items/2418
+#============================================================
+
+perl -p -i -e 's/xxx/zzz/g' filename
+
+
+# 特定の文字列にマッチするプロセスを監視する(top)
+#============================================================
+
+watch -n 1 -d --no-title 'ps -afejH --sort -pcpu | grep sh'
+
+pstree -lahp
