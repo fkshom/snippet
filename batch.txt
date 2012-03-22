@@ -68,8 +68,21 @@ endlocal
 
 if ğŒ ( echo > nul )
 
-# 
+# Ä‹AŒÄ‚Ño‚µ
 #============================================================
+
+call :func 5
+goto :exit
+
+:func
+setlocal
+set arg1=%1
+set /a count=%arg1%-1
+if %count% GTR 0 call :func %count%
+endlocal
+exit /b
+
+:exit
 
 
 # 
