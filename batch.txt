@@ -1047,9 +1047,126 @@ SYSTEMINFO [/S システム [/U ユーザー名 [/P パスワード]]] [/FO 形式] [/NH]
     SYSTEMINFO /S システム /FO LIST
     SYSTEMINFO /S システム /FO CSV /NH
 
-# 
+# rundll32 printui.dll,PrintUIEntry
+# デフォルトプリンタ設定
 #----------------------------------
 
+rundll32 printui.dll,PrintUIEntry
+
+使用法: rundll32 printui.dll,PrintUIEntry [オプション] [@コマンドファイル]
+   /a[ファイル] バイナリ ファイル名
+   /b[名前] 基本プリンタ名
+   /c[名前] UNC コンピュータ名 (リモート コンピュータで実行される場合)
+   /dl ローカル プリンタを削除します
+   /dn ネットワーク プリンタ接続を削除します
+   /dd プリンタ ドライバを削除します
+   /e 印刷設定を表示します
+   /f[ファイル] inf ファイルまたは出力ファイル
+   /ga コンピュータごとのプリンタ接続を接続します
+   /ge コンピュータごとのプリンタ接続を列挙します
+   /gd コンピュータごとのプリンタ接続を削除します
+   /h[アーキテクチャ] ドライバ アーキテクチャが次のうちの 1 つです。 Alpha | Intel | IA64 | x64
+   /ia inf ファイルを使ってプリンタ ドライバをインストールします
+   /id プリンタ ドライバの追加ウィザード使ってプリンタ ドライバをインストールします
+   /if inf ファイルを使ってプリンタをインストールします
+   /ii inf ファイルとプリンタの追加ウィザード使ってプリンタをインストールします
+   /il プリンタの追加ウィザード使ってプリンタをインストールします
+   /in ネットワーク プリンタ接続を追加します
+   /j[プロバイダ] プロバイダ名を印刷します
+   /k 指定されたプリンタへテスト ページを印刷します (プリンタのインストール時にはこのコマンドは使えません)
+   /l[パス] プリンタ ドライバ ソース パス
+   /m[モデル] プリンタ ドライバ モデル名
+   /n[名前] プリンタ名
+   /o プリンタ キューを表示します
+   /p プリンタのプロパティを表示します
+   /q QUIET モード、エラー メッセージを表示しません
+   /r[ポート] ポート名
+   /s サーバー プロパティを表示します
+   /Ss プリンタの設定をファイルに保存します
+   /Sr ファイルからプリンタの設定を復元します
+   コマンドの最後に追加されるプリンタ設定オプション フラグの保存または復元:
+	2	PRINTER_INFO_2
+	7	PRINTER_INFO_7
+	c	色のプロファイル
+	d	プリンタ データ
+	s	セキュリティ記述子
+	g	グローバル開発モード
+	m	最小限の設定
+	u	ユーザー開発モード
+	r	名前の競合を解決する
+	f	名前を強制する
+	p	ポートを解決する
+   /u インストールされている場合は、既存のドライバを使います
+   /t[#] ゼロを基本としたインデックス ページで開始します
+   /v[バージョン] ドライバのバージョンが次のうちの 1 つです。 Windows 95、98 または Me | Windows NT 4.0 | Windows NT 4.0 or 2000 | Windows 2000 または XP| Windows XP
+   /w 指定されたドライバが inf ファイルにない場合にユーザーに確認します
+   /y 通常使うプリンタに設定します
+   /Xg プリンタ設定を取得します
+   /Xs プリンタの設定を設定します
+   /z このプリンタを自動共有にしません
+   /Y プリンタ名を自動生成しません
+   /K /v および /h オプションで、0、1、2、3 の値をそれぞれ Windows x64 | Windows IA64 | Windows NT x86 | Windows NT Alpha_AXP | Windows 4.0 として認識するように変更します
+   /Z このプリンタを共有にします。/if オプションとのみ使用できます
+   /? このヘルプを表示します
+   @[ファイル] コマンド ライン引数ファイル
+   /Mw[message] は、コマンドを実行する前に警告メッセージを表示します。
+   /Mq[message] は、コマンドを実行する前に確認メッセージを表示します。
+   /W[flags] は、ウィザード用のフラグとスイッチを指定します (APW および APDW)
+	r	ウィザードの最終ページからウィザードを再起動できるようにします
+   /G[flags] は、グローバル フラグとスイッチを指定します
+	w	セットアップのドライバ警告 UI を表示しません (Super Quiet モード)
+
+例:
+   サーバー プロパティの実行: 
+rundll32 printui.dll,PrintUIEntry /s /t1 /n\\machine
+   プリンタ プロパティの実行: 
+rundll32 printui.dll,PrintUIEntry /p /n\\machine\printer
+   ローカルでプリンタの追加ウィザードの実行: 
+rundll32 printui.dll,PrintUIEntry /il 
+   \\machine 上でプリンタの追加ウィザードの実行: 
+rundll32 printui.dll,PrintUIEntry /il /c\\Machine
+   キュー表示の実行: 
+rundll32 printui.dll,PrintUIEntry /o /n\\machine\printer
+   inf インストールの実行: 
+rundll32 printui.dll,PrintUIEntry /if /b "Test Printer" /f %windir%\inf\ntprint.inf /r "lpt1:" /m "AGFA-AccuSet v52.3"
+   inf を使ってプリンタの追加ウィザードの実行: 
+rundll32 printui.dll,PrintUIEntry /ii /f %windir%\inf\ntprint.inf
+   コンピュータごとのプリンタ接続の追加: 
+rundll32 printui.dll,PrintUIEntry /ga /c\\machine /n\\machine\printer /j"LanMan Print Services"
+   コンピュータごとのプリンタ接続の削除: 
+rundll32 printui.dll,PrintUIEntry /gd /c\\machine /n\\machine\printer
+   コンピュータごとのプリンタ接続の列挙: 
+rundll32 printui.dll,PrintUIEntry /ge /c\\machine
+   inf を使ってプリンタ ドライバの追加: 
+rundll32 printui.dll,PrintUIEntry /ia /c\\machine /m "AGFA-AccuSet v52.3" /h "Intel" /v "Windows 2000 または XP" /f %windir%\inf\ntprint.inf
+   INF を使ったプリンタ ドライバの追加: 
+rundll32 printui.dll,PrintUIEntry /ia /K /c\\machine /m "AGFA-AccuSet v52.3" /h "Windows NT x86" /v 3
+   プリンタ ドライバの削除: 
+rundll32 printui.dll,PrintUIEntry /dd /c\\machine /m "AGFA-AccuSet v52.3" /h "Intel" /v "Windows 2000 または XP"
+   プリンタ ドライバの削除: 
+rundll32 printui.dll,PrintUIEntry /dd /K /c\\machine /m "AGFA-AccuSet v52.3" /h "Windows NT x86" /v 3
+   通常使うプリンタとして設定: 
+rundll32 printui.dll,PrintUIEntry /y /n "printer"
+   プリンタ comment の設定: 
+rundll32 printui.dll,PrintUIEntry /Xs /n "printer" comment "My Cool Printer"
+   プリンタ設定の取得: 
+rundll32 printui.dll,PrintUIEntry /Xg /n "printer"
+   プリンタ設定の結果をファイルに保存: 
+rundll32 printui.dll,PrintUIEntry /f "results.txt" /Xg /n "printer"
+   プリンタ設定コマンドの設定の使用法:
+rundll32 printui.dll,PrintUIEntry /Xs /n "printer" ?
+   すべてのプリンタ設定をファイルに保存: 
+rundll32 printui.dll,PrintUIEntry /Ss /n "printer" /a "file.dat"
+   すべてのプリンタ設定をファイルから復元: 
+rundll32 printui.dll,PrintUIEntry /Sr /n "printer" /a "file.dat"
+   レベル 2 のプリンタ情報をファイルに保存 : 
+rundll32 printui.dll,PrintUIEntry /Ss /n "printer" /a "file.dat" 2
+   プリンタ セキュリティ記述子をファイルから復元: 
+rundll32 printui.dll,PrintUIEntry /Sr /n "printer" /a "file.dat" s
+   プリンタ グローバル開発モードとプリンタ データをファイルから復元: 
+rundll32 printui.dll,PrintUIEntry /Sr /n "printer" /a "file.dat" g d
+   最小設定をファイルから保存とポート名の解決: 
+rundll32 printui.dll,PrintUIEntry /Sr /n "printer" /a "file.dat" m p
 
 # 
 #----------------------------------
