@@ -35,3 +35,11 @@ Set WshShell = WScript.CreateObject("WScript.Shell")
 ret = WshShell.Run( "test.ext arg1 arg2")
 ret = WshShell.Run( "test.ext arg1 arg2", 0, False )
 
+# コマンドライン引数を使う
+#============================================================
+
+Set args = WScript.Arguments
+wscript.echo args.Count
+wscript.echo args.item(0)
+
+
