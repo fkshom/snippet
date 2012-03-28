@@ -42,4 +42,17 @@ Set args = WScript.Arguments
 wscript.echo args.Count
 wscript.echo args.item(0)
 
+# ショートカットファイルを扱う
+#============================================================
+
+Set wsh = CreateObject("WScript.Shell")
+Set sc = wsh.CreateShortcut("file.lnk")
+sc.TargetPath = "c:\windows\notepad.txt"
+sc.WorkingDirectory = "c:\windows"
+sc.Hotkey = "CTRL+SHIFT+A"
+sc.save
+
+Set sc = Nothing
+set wsh = Nothing
+
 
