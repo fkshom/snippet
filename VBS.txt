@@ -1,2 +1,37 @@
-# 
+# ファイルから一行ずつ読み込む
 #============================================================
+
+Dim objFSO
+Dim objFile
+Set objFSO = WScript.CreateObject("Scripting.FileSystemObject")
+If Err.Number = 0 Then
+    Set objFile = objFSO.OpenTextFile("test.txt")
+    If Err.Number = 0 Then
+        Do While objFile.AtEndOfStream <> True
+            WScript.Echo objFile.ReadLine
+        Loop
+        objFile.Close
+    Else
+        WScript.Echo "ファイルオープンエラー: " & Err.Description
+    End If
+Else
+    WScript.Echo "エラー: " & Err.Description
+End If
+
+Set objFile = Nothing
+Set objFSO = Nothing
+
+
+# 外部プログラムを実行する
+# http://winofsql.jp/VA003334/vbsguide051215192026.htm
+#============================================================
+
+" コマンドプロンプトウィンドウを表示させずに同期実行する
+Set WshShell = WScript.CreateObject("WScript.Shell")
+ret = WshShell.Run( "test.ext arg1 arg2", 0, True )
+
+" コマンドプロンプトウィンドウを表示させて非同期実行する
+Set WshShell = WScript.CreateObject("WScript.Shell")
+ret = WshShell.Run( "test.ext arg1 arg2")
+ret = WshShell.Run( "test.ext arg1 arg2", 0, False )
+
