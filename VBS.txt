@@ -22,7 +22,7 @@ Set objFile = Nothing
 Set objFSO = Nothing
 
 
-# 外部プログラムを実行する
+# 外部プログラムを実行する（notepadの起動とか）
 # http://winofsql.jp/VA003334/vbsguide051215192026.htm
 #============================================================
 
@@ -34,6 +34,20 @@ ret = WshShell.Run( "test.ext arg1 arg2", 0, True )
 Set WshShell = WScript.CreateObject("WScript.Shell")
 ret = WshShell.Run( "test.ext arg1 arg2")
 ret = WshShell.Run( "test.ext arg1 arg2", 0, False )
+
+# 外部プログラムを実行する（標準入出力使用）
+#============================================================
+
+Set WshShell = WScript.CreateObject("WScript.Shell")
+Set objExec = WshShell.Exec( "cmd /C dir" )
+Do Until objExec.StdOut.AtEndOfStream
+  strLine = objExec.StdOut.ReadLine
+  wscript.echo strLine
+Loop
+
+Set objExec = WshShell.Exec( "cmd /C dir" )
+wscript.echo objExec.StdOut.ReadAll
+
 
 # コマンドライン引数を使う
 #============================================================
@@ -54,5 +68,75 @@ sc.save
 
 Set sc = Nothing
 set wsh = Nothing
+
+# プログラムを終了する
+#============================================================
+
+wscript.quit 終了コード
+wscript.quit 0
+
+# 関数を途中で抜ける
+#============================================================
+
+Function test(arg)
+  If arg == 0
+    Exit Function
+  End If
+End Function
+
+# 標準入出力を使う
+#============================================================
+
+Dim objStdIn, objStdOut, objStdErr
+Set objStdIn = WScript.StdIn
+Set objStdOut = WScript.StdOut
+Set objStdErr = WScript.StdErr
+
+wscript.echo objStdIn.ReadAll
+objStdOut.WriteLine "test"
+objStdErr.WriteLine "test"
+
+Set objStdIn = Nothing
+Set objStdOut = Nothing
+Set objStdErr = Nothing
+
+# フォルダに対して再帰する(文字列渡し)
+#============================================================
+
+Sub recursiveProc(maxdepth, path)
+runicacls(path)
+
+If maxdepth > 0 Then
+  Set objFolder = objFSO.GetFolder(path)
+  For Each objSubFolder In objFolder.SubFolders
+    recursiveProc maxdepth-1, path & "\" & objSubFolder.Name
+  Next
+  Set objFolder = Nothing
+End If
+End Sub
+
+# フォルダに対して再帰する(Folderオブジェクト渡し)
+#============================================================
+
+Sub recursiveProc1(maxdepth, objFolder)
+runicacls(objFolder.Path)
+
+If maxdepth > 0 Then
+  For Each objSubFolder In objFolder.SubFolders
+    recursiveProc maxdepth-1, objSubFolder
+  Next
+End If
+End Sub
+
+# 
+#============================================================
+
+
+# 
+#============================================================
+
+
+# 
+#============================================================
 
 
